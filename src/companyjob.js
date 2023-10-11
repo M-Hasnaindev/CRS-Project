@@ -1,12 +1,55 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, push } from "firebase/database";
+import { toast } from "react-toastify";
 
 function Companyjob() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-        const handlebackorsave = () => {
-            navigate('/company-dashboard')
-          };
+  const handlecancel = () => {
+    navigate("/company-dashboard")
+    console.log("cancel edit CV")
+  }
+
+  const handleSaveJob = () => {
+    const db = getDatabase(app);
+    const cvDataRef = ref(db, "Company Jobs");
+    const cvData = {
+      fullName: document.getElementById("userFullName").value,
+      location: document.getElementById("userLocation").value,
+      industry: document.getElementById("userIndustry").value,
+      employees: document.getElementById("userEmployees").value,
+      founded: document.getElementById("userFounded").value,
+      facebook: document.getElementById("userFacebook").value,
+      twitter: document.getElementById("userTwitter").value,
+      googlePlus: document.getElementById("userGooglePlus").value,
+      site: document.getElementById("userSite").value,
+      bio: document.getElementById("userBio").value,
+    };
+
+    push(cvDataRef, cvData)
+      .then((newRef) => {
+        console.log("CV data saved with ID: " + newRef.key);
+        navigate("/company-dashboard");
+        toast.success("JOB Edit Successfully.");
+      })
+      .catch((error) => {
+        console.error("Error saving Company job: " + error.message);
+    });
+  }
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
+    authDomain: "practice-host-auth0.firebaseapp.com",
+    databaseURL: "https://practice-host-auth0-default-rtdb.firebaseio.com",
+    projectId: "practice-host-auth0",
+    storageBucket: "practice-host-auth0.appspot.com",
+    messagingSenderId: "1058475595172",
+    appId: "1:1058475595172:web:5b980a9756ae3d849cdd31",
+  };
+
+  const app = initializeApp(firebaseConfig);
   return (
     <div className="page_4">
       <div className="cv_section">
@@ -49,11 +92,11 @@ function Companyjob() {
                                 <input type="text" className="form-control" id="userSite" placeholder="https://www.example.com/" />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="userBio">Profile Description</label>
+                                <label htmlFor="userBio">Company Description</label>
                                 <textarea className="form-control" id="userBio" rows="4"></textarea>
                             </div>
-                            <button type="button" className="btn btn-success btn-block text-uppercase mb-3" onClick={handlebackorsave}>Save Job</button>
-                            <button type="button" className="btn-border btn btn-outline-danger btn-block text-uppercase" onClick={handlebackorsave}>Cancle</button>
+                            <button type="button" className="btn btn-success btn-block text-uppercase mb-3" onClick={handleSaveJob}>Save Job</button>
+                            <button type="button" className="btn-border btn btn-outline-danger btn-block text-uppercase" onClick={handlecancel}>Cancle</button>
         </div>
       </div>
     </div>

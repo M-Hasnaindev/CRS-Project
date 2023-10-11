@@ -3,6 +3,7 @@ import img from "./Assest/img.png";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function Login() {
         .then(() => {
           console.log(`Wellcome Back ${email}`);
           navigate("/student-dashboard");
+          toast.success(`${email} Welcome Back.`);
         })
         .catch((error) => {
           console.error(
@@ -40,7 +42,7 @@ function Login() {
           );
         });
     } else {
-      alert("Please fill in all the fields");
+      toast.error("Please fill in all the fields");
     }
     console.log("Button Was Clicked again");
   };

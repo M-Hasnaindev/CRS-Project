@@ -2,79 +2,44 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
+import { toast } from "react-toastify";
 
 function Studentcv() {
   const navigate = useNavigate();
-
-  const [userData, setUserData] = useState({
-    userfullName: "",
-    userLocation: "",
-    userQualification: "",
-    userPassingYear: "",
-    userPercentage: "",
-    userFacebook: "",
-    userTwitter: "",
-    userGooglePlus: "",
-    userSite: "",
-  });
 
   const handlecancel = () => {
     navigate("/student-dashboard")
     console.log("cancel edit CV")
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const handleSaveProfile = () => {
+    const db = getDatabase(app);
+    const cvDataRef = ref(db, "Student CV");
+    const cvData = {
+      fullName: document.getElementById("userFullName").value,
+      location: document.getElementById("userLocation").value,
+      qualification: document.getElementById("userQualification").value,
+      passingYear: document.getElementById("userPassingYear").value,
+      percentage: document.getElementById("userPercentage").value,
+      facebook: document.getElementById("userFacebook").value,
+      twitter: document.getElementById("userTwitter").value,
+      googlePlus: document.getElementById("userGooglePlus").value,
+      site: document.getElementById("userSite").value,
+      bio: document.getElementById("userBio").value,
+    };
 
-  const handlebackorsave = () => {
-    const {
-      userfullName,
-      userLocation,
-      userQualification,
-      userPassingYear,
-      userPercentage,
-      userFacebook,
-      userTwitter,
-      userGooglePlus,
-      userSite,
-    } = userData;
+    push(cvDataRef, cvData)
+      .then((newRef) => {
+        console.log("CV data saved with ID: " + newRef.key);
+        navigate("/student-dashboard");
+        toast.success("CV Edit Successfully.");
 
-    if (
-      userfullName &&
-      userLocation &&
-      userQualification &&
-      userPassingYear &&
-      userPercentage &&
-      userFacebook &&
-      userTwitter &&
-      userGooglePlus &&
-      userSite
-    ) {
-      const db = getDatabase(app);
+      })
+      .catch((error) => {
+        console.error("Error saving CV data: " + error.message);
+      });
+  }
 
-      const usersRef = ref(db, "Student CV");
-
-      push(usersRef, userData)
-        .then(() => {
-          console.log(`CV was edit successfully!`);
-          navigate("/student-dashboard");
-        })
-        .catch((error) => {
-          console.error(
-            "Error adding user data to Firebase Realtime Database: ",
-            error
-          );
-        });
-    } else {
-      alert("Please fill in all the fields");
-    }
-    console.log("Button Was Clicked for editing CV");
-  };
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
     authDomain: "practice-host-auth0.firebaseapp.com",
@@ -98,8 +63,6 @@ function Studentcv() {
               className="form-control"
               id="userFullName"
               placeholder="Name"
-              value={userData.userfullName}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -109,8 +72,6 @@ function Studentcv() {
               className="form-control"
               id="userLocation"
               placeholder="City, Country"
-              value={userData.userLocation}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -120,8 +81,6 @@ function Studentcv() {
               className="form-control"
               id="userQualification"
               placeholder="Bachelor Of Computer Science"
-              value={userData.userQualification}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -131,8 +90,6 @@ function Studentcv() {
               className="form-control"
               id="userPassingYear"
               placeholder="2015"
-              value={userData.userPassingYear}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -142,8 +99,6 @@ function Studentcv() {
               className="form-control"
               id="userPercentage"
               placeholder="50%"
-              value={userData.userPercentage}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -153,8 +108,6 @@ function Studentcv() {
               className="form-control"
               id="userFacebook"
               placeholder="https://www.facebook.com/"
-              value={userData.userFacebook}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -164,8 +117,6 @@ function Studentcv() {
               className="form-control"
               id="userTwitter"
               placeholder="https://www.twitter.com/"
-              value={userData.userTwitter}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -175,8 +126,6 @@ function Studentcv() {
               className="form-control"
               id="userGooglePlus"
               placeholder="https://plus.google.com/"
-              value={userData.userGooglePlus}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -186,8 +135,6 @@ function Studentcv() {
               className="form-control"
               id="userSite"
               placeholder="https://www.example.com/"
-              value={userData.userSite}
-              onChange={handleChange}
             />
           </div>
           <div className="form-group">
@@ -197,7 +144,7 @@ function Studentcv() {
           <button
             type="button"
             className="btn btn-success btn-block text-uppercase mb-3"
-            onClick={handlebackorsave}
+            onClick={handleSaveProfile}
           >
             Save Profile
           </button>

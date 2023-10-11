@@ -7,11 +7,14 @@ import Signup from './signup';
 import Login from './login';
 import Companydashboard from './companydashboard';
 import Companyjob from './companyjob';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import Admin_dashboard from './AdminDashboard';
 
 
 function App() {
   return (
+    <>
     <Router>
       <Routes>
         <Route path='/' element={<Signup />}/>
@@ -22,6 +25,8 @@ function App() {
         <Route path='/add-job' element={<Companyjob />}/>
       </Routes>
     </Router>
+    <ToastContainer theme='dark'/>
+    </>
   );
 }
 

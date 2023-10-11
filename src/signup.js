@@ -3,11 +3,17 @@ import img from "./Assest/img.png";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
+import { toast } from "react-toastify";
 
 function Signup() {
   const [showFirstStep, setShowFirstStep] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleStudentButtonClick = () => {
+    setShowFirstStep(false);
+  };
+
+  const handleCompanyButtonClick = () => {
     setShowFirstStep(false);
   };
 
@@ -32,6 +38,7 @@ function Signup() {
     const { fullname, email, password, Contact } = userData;
 
     if (fullname && email && password && Contact) {
+      setIsSaving(true)
       const db = getDatabase(app);
 
       const usersRef = ref(db, "NewUser");
@@ -40,15 +47,19 @@ function Signup() {
         .then(() => {
           console.log("User Signup successfully!");
           navigate("/login");
+          toast.success(`${email} Signup Successfully.`);
         })
         .catch((error) => {
           console.error(
             "Error adding user data to Firebase Realtime Database: ",
             error
           );
-        });
+        })
+        setTimeout(() => {
+          setIsSaving(false);
+        }, 2000);
     } else {
-      alert("Please fill in all the fields");
+      toast.error("Please fill in all the fields");
     }
     console.log("Button Was Clicked")
   };
@@ -82,7 +93,7 @@ function Signup() {
               <button className="form_btn" onClick={handleStudentButtonClick}>
                 Student
               </button>
-              <button className="form_btn">Comapny</button>
+              <button className="form_btn" onClick={handleCompanyButtonClick}>Comapny</button>
             </div>
           </div>
         </div>
@@ -153,6 +164,11 @@ function Signup() {
             </div>
           </div>
         </div>
+        {isSaving && (
+          <div className="loader">
+            Saving...
+          </div>
+        )}
       </div>
     </div>
   );
