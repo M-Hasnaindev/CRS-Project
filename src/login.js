@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 import { toast } from "react-toastify";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -21,31 +22,40 @@ function Login() {
     }));
   };
 
-  const handleSignin = () => {
+  const handleSignin = async () => {
     const { email, password } = userData;
 
     if (email && password) {
       const db = getDatabase(app);
+      const auth = getAuth(app);
 
-      const usersRef = ref(db, "Logged User");
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      push(usersRef, userData)
-        .then(() => {
-          console.log(`Wellcome Back ${email}`);
-          navigate("/student-dashboard");
-          toast.success(`${email} Welcome Back.`);
-        })
-        .catch((error) => {
-          console.error(
-            "Error adding user data to Firebase Realtime Database: ",
-            error
-          );
-        });
+        const usersRef = ref(db, "Logged User");
+
+        push(usersRef, userData)
+          .then(() => {
+            console.log(`Welcome Back ${email}`);
+            navigate("/student-dashboard");
+            toast.success(`${email} Welcome Back.`);
+          })
+          .catch((error) => {
+            console.error(
+              "Error adding user data to Firebase Realtime Database: ",
+              error
+            );
+          });
+      } catch (error) {
+        console.error("Error signing in: ", error);
+        toast.error("Invalid email or password. Please try again.");
+      }
     } else {
       toast.error("Please fill in all the fields");
     }
     console.log("Button Was Clicked again");
-  };
+  }
 
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",

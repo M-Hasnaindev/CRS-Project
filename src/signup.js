@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 import { toast } from "react-toastify";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function Signup() {
   const [showFirstStep, setShowFirstStep] = useState(true);
@@ -34,19 +35,30 @@ function Signup() {
     }));
   };
 
-  const handleSignup = () => {
+  const handleSignup = async (userType) => {
     const { fullname, email, password, Contact } = userData;
 
     if (fullname && email && password && Contact) {
       setIsSaving(true)
       const db = getDatabase(app);
+      const auth = getAuth();
 
-      const usersRef = ref(db, "NewUser");
+      try{
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const userRef = userType === 'student' ? ref(db, "Student") : ref(db, "Company");
+      console.log(userType = "student")
 
-      push(usersRef, userData)
+      push(userRef, { uid: user.uid, ...userData })
         .then(() => {
+          if (userType === 'student') {
+            console.log("student hi h")
+            navigate("/login");
+          } else if (userType === 'company') {
+            console.log("company hi h")
+            navigate("/login");
+          }
           console.log("User Signup successfully!");
-          navigate("/login");
           toast.success(`${email} Signup Successfully.`);
         })
         .catch((error) => {
@@ -58,11 +70,15 @@ function Signup() {
         setTimeout(() => {
           setIsSaving(false);
         }, 2000);
+      } catch (error) {
+        console.error("Error creating user:", error);
+      }
     } else {
       toast.error("Please fill in all the fields");
     }
     console.log("Button Was Clicked")
   };
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",

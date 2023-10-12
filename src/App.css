@@ -231,7 +231,7 @@ hr.small {
 
 .page_3 {
   background: aliceblue;
-  height: 50vh;
+  height: 120vh;
   border: 1px solid blue;
   width: 90%;
   text-align: center;
@@ -469,3 +469,59 @@ button.submit:hover{
   align-items: center;
 }
 
+
+.student_data{
+  /* display: flex; */
+}
+
+.applied_data{
+  display: none;
+}
+
+.job_data{
+  /* display: none; */
+}
+
+.applied_job{
+  display: none;
+}
+
+.data_here{
+  font-family: "Teko", sans-serif;
+  font-size: 25px;
+}
+
+.company_data{
+  display: none;
+}
+
+.companies{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  /* justify-content: center; */
+}
+
+.company_founded span{
+  font-weight: 200;
+  font-size: 25px;
+  font-family: 'Courier New', Courier, monospace;
+}
+.company_location span{
+  font-weight: 200;
+  font-size: 25px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.company {
+  cursor: pointer;
+  /* width: 50%; */
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.company:hover{
+  border: 1px solid blue;
+  border-radius: 20px;
+  transition: ease-in 0.2;
+
+}
