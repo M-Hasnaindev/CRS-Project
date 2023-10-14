@@ -231,18 +231,19 @@ hr.small {
 
 .page_3 {
   background: aliceblue;
-  height: 120vh;
+  height: 126vh;
   border: 1px solid blue;
   width: 90%;
   text-align: center;
   margin-left: 50px;
   box-shadow: -5px 4px 12px -1px rgba(0, 0, 0, 0.58);
   margin-top: 50px;
+  overflow-y: scroll;
 }
 
 .page_4 {
   background: aliceblue;
-  height: 230vh;
+  height: 250vh;
   border: 1px solid blue;
   width: 80%;
   text-align: center;
@@ -479,7 +480,7 @@ button.submit:hover{
 }
 
 .job_data{
-  /* display: none; */
+  display: none;
 }
 
 .applied_job{
@@ -523,5 +524,60 @@ button.submit:hover{
   border: 1px solid blue;
   border-radius: 20px;
   transition: ease-in 0.2;
+}
 
+.student__cv__data__here {
+  color: black;
+  cursor: pointer;
+  margin: 30px;
+  margin-bottom: 30px;
+  /* border: 1px solid black; */
+  width: 106%;
+  height: 27vh;
+}
+
+.student__cv__data__here:hover{
+  border: 1px solid black;
+}
+
+ul.grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin-left: 0px;
+  padding: 0px;
+  margin-right: 105px;
+}
+
+
+::-webkit-scrollbar {
+  width: 1px;
+}
+::-webkit-scrollbar-track {
+  background: blue; 
+}
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+button.now {
+  width: 124px;
+  border: 1px solid blue;
+  background: aliceblue;
+  border-radius: 11px;
+  cursor: pointer;
+}
+
+.dowanload_now {
+  display: flex;
+  justify-content: center;
+  height: 44px;
+}
+
+svg.D_BTN {
+  width: 28px;
+  margin: -1px;
 }

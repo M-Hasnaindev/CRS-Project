@@ -6,13 +6,13 @@ import { SiTwitter } from "react-icons/si";
 import { FaFacebookF } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import company1 from './Assest/company1.jpg'
-import company2 from './Assest/company2.jpg'
-import company3 from './Assest/company3.jpg'
+import company1 from "./Assest/company1.jpg";
+import company2 from "./Assest/company2.jpg";
+import company3 from "./Assest/company3.jpg";
 
 function Studentdashboard() {
-  const [showCompany, setShowCompany] = useState(true)
-  const [showJobs, setShowJobs] = useState(true)
+  const [showCompany, setShowCompany] = useState(true);
+  const [showJobs, setShowJobs] = useState(true);
   const navigate = useNavigate();
 
   const handleAddCVClick = () => {
@@ -20,20 +20,20 @@ function Studentdashboard() {
   };
 
   const handleLogout = () => {
-    navigate("/login")
-    toast.success("Logout Successfully")
+    navigate("/login");
+    toast.success("Logout Successfully");
   };
 
   const handlePageChange = () => {
-    navigate("/jobs")
-  }
+    navigate("/jobs");
+  };
 
   const handleCompnaies = () => {
-    setShowCompany(false)
-  }
+    setShowCompany(false);
+  };
   const handleJobs = () => {
-    setShowJobs(false)
-  }
+    setShowJobs(false);
+  };
   return (
     <div className="main-page">
       <div className="page-section">
@@ -102,40 +102,56 @@ function Studentdashboard() {
         <div className="page_3">
           <div className="bottom_section">
             <div className="section_4">
-              <div className="data_here job_data" style={{ display: showCompany ? "block" : "none" }}>
+              <div
+                className="data_here job_data"
+                style={{ display: showCompany ? "block" : "none" }}
+              >
                 <h2>Job list</h2>
                 <div className="job__data__here">
                   <div className="jobies">
-                    <div className="job">
-                      
-                    </div>
+                    <div className="job"></div>
                   </div>
                 </div>
               </div>
-              <div className="data_here company_data" style={{ display: showCompany ? "none" : "block" }}>
+              <div
+                className="data_here company_data"
+                style={{ display: showCompany ? "none" : "block" }}
+              >
                 <h2>Company</h2>
                 <div className="company__job__data">
-                <div className="companies">
+                  <div className="companies">
                     <div className="company" onClick={handlePageChange}>
-                        <img src={company1} alt="Company Image" width={"60%"} />
-                        <h1 className="company_name">LIFE PEN CO.</h1>
-                        <p className="company_founded">Founded: <span>2020</span></p>
-                        <p className="company_location">location: <span>Karachi, Pakistan</span></p>
+                      <img src={company1} alt="Company Image" width={"60%"} />
+                      <h1 className="company_name">LIFE PEN CO.</h1>
+                      <p className="company_founded">
+                        Founded: <span>2020</span>
+                      </p>
+                      <p className="company_location">
+                        location: <span>Karachi, Pakistan</span>
+                      </p>
                     </div>
                     <div className="company" onClick={handlePageChange}>
-                        <img src={company2} alt="Company Image" width={"60%"} />
-                        <h1 className="company_name">STATE LIFE</h1>
-                        <p className="company_founded">Founded: <span>2002</span></p>
-                        <p className="company_location">location: <span>Lahore, Pakistan</span></p>
+                      <img src={company2} alt="Company Image" width={"60%"} />
+                      <h1 className="company_name">STATE LIFE</h1>
+                      <p className="company_founded">
+                        Founded: <span>2002</span>
+                      </p>
+                      <p className="company_location">
+                        location: <span>Lahore, Pakistan</span>
+                      </p>
                     </div>
                     <div className="company" onClick={handlePageChange}>
-                        <img src={company3} alt="Company Image" width={"60%"} />
-                        <h1 className="company_name">IT SOLUTION</h1>
-                        <p className="company_founded">Founded: <span>2009</span></p>
-                        <p className="company_location">location: <span>KPK, Pakistan</span></p>
+                      <img src={company3} alt="Company Image" width={"60%"} />
+                      <h1 className="company_name">IT SOLUTION</h1>
+                      <p className="company_founded">
+                        Founded: <span>2009</span>
+                      </p>
+                      <p className="company_location">
+                        location: <span>KPK, Pakistan</span>
+                      </p>
                     </div>
+                  </div>
                 </div>
-            </div>
               </div>
               <div className="data_here applied_job">
                 <h2>Applied Job</h2>

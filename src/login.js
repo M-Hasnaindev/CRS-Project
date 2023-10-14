@@ -30,7 +30,11 @@ function Login() {
       const auth = getAuth(app);
 
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
 
         const usersRef = ref(db, "Logged User");
@@ -55,7 +59,7 @@ function Login() {
       toast.error("Please fill in all the fields");
     }
     console.log("Button Was Clicked again");
-  }
+  };
 
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",

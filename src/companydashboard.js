@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { PiStudentBold } from "react-icons/pi";
 import { FaGlobe } from "react-icons/fa";
 import { BiLogoGooglePlus } from "react-icons/bi";
@@ -22,19 +22,50 @@ function Companydashboard() {
 
   const handleStudentDataClick = () => {
     const db = getDatabase();
-    const studentsRef = ref(db, "studentCV");
-    console.log("save")
+    const studentsRef = ref(db, "Student CV");
 
     onValue(studentsRef, (snapshot) => {
       const data = snapshot.val();
-      setStudentData(data);
+      if (data) {
+        setStudentData(data);
+      }
     });
-    console.log("save ho giya");
   };
 
   useEffect(() => {
     handleStudentDataClick();
   }, []);
+
+  const navigateToCV = (cvData) => {
+    navigate("/cv", { state: { cvData } });
+  };
+
+  const renderStudentData = () => {
+    if (studentData && Object.values(studentData).length > 0) {
+      return (
+        <div className="data_here student_data">
+          <h2>Student Data</h2>
+          <ul className="grid">
+            {Object.values(studentData).map((student, index) => (
+              <div
+                className="student__cv__data__here"
+                key={index}
+                onClick={() => navigateToCV(student)}
+              >
+                <h3 className="fullname">fullName: &nbsp;{student.fullName}</h3>
+                <p className="location">
+                  location: &nbsp;&nbsp;&nbsp;{student.location}
+                </p>
+                <p className="bio">bio: &nbsp;&nbsp;&nbsp;{student.bio}</p>
+              </div>
+            ))}
+          </ul>
+        </div>
+      );
+    } else {
+      return <p>No student data available.</p>;
+    }
+  };
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
     authDomain: "practice-host-auth0.firebaseapp.com",
@@ -120,10 +151,7 @@ function Companydashboard() {
               <div className="data_here applied_data">
                 <h2>Appilied</h2>
               </div>
-              <div className="data_here student_data">
-                <h2>Student Data</h2>
-                
-              </div>
+              {renderStudentData()}
             </div>
           </div>
         </div>

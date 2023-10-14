@@ -8,9 +8,9 @@ function Studentcv() {
   const navigate = useNavigate();
 
   const handlecancel = () => {
-    navigate("/student-dashboard")
-    console.log("cancel edit CV")
-  }
+    navigate("/student-dashboard");
+    console.log("cancel edit CV");
+  };
 
   const handleSaveProfile = () => {
     const db = getDatabase(app);
@@ -33,12 +33,11 @@ function Studentcv() {
         console.log("CV data saved with ID: " + newRef.key);
         navigate("/student-dashboard");
         toast.success("CV Edit Successfully.");
-
       })
       .catch((error) => {
         console.error("Error saving CV data: " + error.message);
       });
-  }
+  };
 
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",

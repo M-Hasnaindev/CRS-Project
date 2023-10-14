@@ -39,34 +39,39 @@ function Signup() {
     const { fullname, email, password, Contact } = userData;
 
     if (fullname && email && password && Contact) {
-      setIsSaving(true)
+      setIsSaving(true);
       const db = getDatabase(app);
       const auth = getAuth();
 
-      try{
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         const user = userCredential.user;
-        const userRef = userType === 'student' ? ref(db, "Student") : ref(db, "Company");
-      console.log(userType = "student")
+        const userRef =
+          userType === "student" ? ref(db, "Student") : ref(db, "Company");
+        console.log((userType = "student"));
 
-      push(userRef, { uid: user.uid, ...userData })
-        .then(() => {
-          if (userType === 'student') {
-            console.log("student hi h")
-            navigate("/login");
-          } else if (userType === 'company') {
-            console.log("company hi h")
-            navigate("/login");
-          }
-          console.log("User Signup successfully!");
-          toast.success(`${email} Signup Successfully.`);
-        })
-        .catch((error) => {
-          console.error(
-            "Error adding user data to Firebase Realtime Database: ",
-            error
-          );
-        })
+        push(userRef, { uid: user.uid, ...userData })
+          .then(() => {
+            if (userType === "student") {
+              console.log("student hi h");
+              navigate("/login");
+            } else if (userType === "company") {
+              console.log("company hi h");
+              navigate("/login");
+            }
+            console.log("User Signup successfully!");
+            toast.success(`${email} Signup Successfully.`);
+          })
+          .catch((error) => {
+            console.error(
+              "Error adding user data to Firebase Realtime Database: ",
+              error
+            );
+          });
         setTimeout(() => {
           setIsSaving(false);
         }, 2000);
@@ -76,9 +81,8 @@ function Signup() {
     } else {
       toast.error("Please fill in all the fields");
     }
-    console.log("Button Was Clicked")
+    console.log("Button Was Clicked");
   };
-
 
   const firebaseConfig = {
     apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
@@ -109,7 +113,9 @@ function Signup() {
               <button className="form_btn" onClick={handleStudentButtonClick}>
                 Student
               </button>
-              <button className="form_btn" onClick={handleCompanyButtonClick}>Comapny</button>
+              <button className="form_btn" onClick={handleCompanyButtonClick}>
+                Comapny
+              </button>
             </div>
           </div>
         </div>
@@ -180,11 +186,7 @@ function Signup() {
             </div>
           </div>
         </div>
-        {isSaving && (
-          <div className="loader">
-            Saving...
-          </div>
-        )}
+        {isSaving && <div className="loader">Saving...</div>}
       </div>
     </div>
   );

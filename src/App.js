@@ -10,7 +10,7 @@ import Companyjob from './companyjob';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Companyjobdata from './companyjobdata';
-// import Admin_dashboard from './AdminDashboard';
+import Cv from './cv';
 
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
         <Route path='/add-cv' element={<Studentcv />}/>
         <Route path='/add-job' element={<Companyjob />}/>
         <Route path='/jobs' element={<Companyjobdata />}/>
+        <Route path='/cv' element={<Cv />}/>
       </Routes>
     </Router>
     <ToastContainer theme='dark'/>
@@ -32,4 +33,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
