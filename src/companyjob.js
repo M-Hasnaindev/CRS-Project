@@ -26,7 +26,7 @@ function Companyjob() {
       googlePlus: document.getElementById("userGooglePlus").value,
       site: document.getElementById("userSite").value,
       bio: document.getElementById("userBio").value,
-      image: document.getElementById("userImage").value,
+      // image: document.getElementById("userImage").value,
     };
 
     push(cvDataRef, cvData)
@@ -136,10 +136,6 @@ function Companyjob() {
               id="userSite"
               placeholder="https://www.example.com/"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="userImage">Company Images</label>
-            <input type="file" id="img" name="img" accept="image/* " />
           </div>
           <div className="form-group">
             <label htmlFor="userBio">Company Description</label>

@@ -581,3 +581,8 @@ svg.D_BTN {
   width: 28px;
   margin: -1px;
 }
+
+.job {
+  cursor: pointer;
+}
+
