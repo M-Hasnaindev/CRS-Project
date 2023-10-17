@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Companyjobdata from './companyjobdata';
 import Cv from './cv';
+import Apply from './apply';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path='/add-job' element={<Companyjob />}/>
         <Route path='/jobs' element={<Companyjobdata />}/>
         <Route path='/cv' element={<Cv />}/>
+        <Route path='/apply' element={<Apply />}/>
       </Routes>
     </Router>
     <ToastContainer theme='dark'/>

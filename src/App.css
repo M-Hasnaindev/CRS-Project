@@ -584,5 +584,18 @@ svg.D_BTN {
 
 .job {
   cursor: pointer;
+  font-family: "Teko", sans-serif;
 }
 
+.container{
+  display: grid;
+  grid-template-columns: auto auto auto; 
+}
+
+.job h3{
+  font-size: 25px;
+}
+
+.job p{
+  font-size: 20px;
+}

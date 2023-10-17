@@ -40,7 +40,7 @@ function Companydashboard() {
     navigate("/cv", { state: { cvData } });
   };
 
-  const renderStudentData = () => {
+  const showStudentCvData = () => {
     if (studentData && Object.values(studentData).length > 0) {
       return (
         <div className="data_here student_data">
@@ -96,7 +96,6 @@ function Companydashboard() {
                 </button>
               </div>
             </div>
-            {/* <hr className='hr' /> */}
             <div className="section_2">
               <div className="cv_things">
                 <div className="thing">
@@ -151,7 +150,7 @@ function Companydashboard() {
               <div className="data_here applied_data">
                 <h2>Appilied</h2>
               </div>
-              {renderStudentData()}
+              {showStudentCvData()}
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import img from "./Assest/img.png";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, get } from "firebase/database";
 import { toast } from "react-toastify";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
@@ -26,30 +26,48 @@ function Login() {
     const { email, password } = userData;
 
     if (email && password) {
-      const db = getDatabase(app);
+      const firebaseConfig = {
+        apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
+        authDomain: "practice-host-auth0.firebaseapp.com",
+        databaseURL: "https://practice-host-auth0-default-rtdb.firebaseio.com",
+        projectId: "practice-host-auth0",
+        storageBucket: "practice-host-auth0.appspot.com",
+        messagingSenderId: "1058475595172",
+        appId: "1:1058475595172:web:5b980a9756ae3d849cdd31",
+      };
+
+      const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
+      const db = getDatabase(app);
 
       try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        const usersRef = ref(db, "Logged User");
-
-        push(usersRef, userData)
-          .then(() => {
-            console.log(`Welcome Back ${email}`);
-            navigate("/student-dashboard");
-            toast.success(`${email} Welcome Back.`);
+    
+        const userId = user.uid;
+        console.log("user id:", userId)
+        const userRef = ref(db,`user/${userId}`);
+        console.log("ref path:", userRef);
+        
+    
+        get(userRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+            console.log("User data:", userData);
+              if (userData.userType === "student") {
+                navigate("/student-dashboard");
+              } else if (userData.userType === "company") {
+                navigate("/company-dashboard");
+              }
+              toast.success(`${email} Welcome Back.`);
+            } else {
+              console.log("No data available");
+            }
           })
           .catch((error) => {
-            console.error(
-              "Error adding user data to Firebase Realtime Database: ",
-              error
-            );
+            console.error("Error retrieving user data: ", error);
+            toast.error("Error retrieving user data. Please try again.");
           });
       } catch (error) {
         console.error("Error signing in: ", error);
@@ -58,20 +76,7 @@ function Login() {
     } else {
       toast.error("Please fill in all the fields");
     }
-    console.log("Button Was Clicked again");
   };
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
-    authDomain: "practice-host-auth0.firebaseapp.com",
-    databaseURL: "https://practice-host-auth0-default-rtdb.firebaseio.com",
-    projectId: "practice-host-auth0",
-    storageBucket: "practice-host-auth0.appspot.com",
-    messagingSenderId: "1058475595172",
-    appId: "1:1058475595172:web:5b980a9756ae3d849cdd31",
-  };
-
-  const app = initializeApp(firebaseConfig);
   return (
     <>
       <h1 className="signup_heading">Login</h1>

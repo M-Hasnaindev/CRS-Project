@@ -1,6 +1,3 @@
-import company1 from "./Assest/company1.jpg";
-import company2 from "./Assest/company2.jpg";
-import company3 from "./Assest/company3.jpg";
 import React, { useState, useEffect } from "react";
 import { PiStudentBold } from "react-icons/pi";
 import { FaGlobe } from "react-icons/fa";
@@ -94,10 +91,10 @@ function Studentdashboard() {
             <div className="section_2">
               <div className="cv_things">
                 <div className="thing">
-                  <p>Location:</p>
-                  <p>Qualification:</p>
-                  <p>Percentage:</p>
-                  <p>Passing Year:</p>
+                  <p>FullName:</p>
+                  <p>Email:</p>
+                  <p>Password:</p>
+                  <p>Contact no:</p>
                   <div className="icons">
                     <div className="icones">
                       <FaFacebookF />
@@ -148,17 +145,12 @@ function Studentdashboard() {
                 {showJobs && (
                   <div className="jobies">
                     {companyJobs.map((companyJob, index) => (
-                      <div className="job" onClick={handleApply} key={index}>
-                        <h3>FullName:&nbsp;{companyJob.fullName}</h3>
+                      <div className="job">
+                        <div className="container" onClick={handleApply} key={index}>
+                        <h3>&nbsp;{companyJob.fullName}</h3>
                         <p>location:&nbsp;&nbsp;&nbsp;{companyJob.location}</p>
                         <p>industry:&nbsp;&nbsp;&nbsp;{companyJob.industry}</p>
-                        <p>employees:&nbsp;&nbsp;&nbsp;{companyJob.employees}</p>
-                        <p>founded:&nbsp;&nbsp;&nbsp;{companyJob.founded}</p>
-                        <p>facebook:&nbsp;&nbsp;&nbsp;{companyJob.facebook}</p>
-                        <p>twitter:&nbsp;&nbsp;&nbsp;{companyJob.twitter}</p>
-                        <p>googlePlus:&nbsp;&nbsp;&nbsp;{companyJob.googlePlus}</p>
-                        <p>site:&nbsp;&nbsp;&nbsp;{companyJob.site}</p>
-                        <p>bio:&nbsp;&nbsp;&nbsp;{companyJob.bio}</p>
+                        </div>
                       </div>
                     ))}
                   </div>

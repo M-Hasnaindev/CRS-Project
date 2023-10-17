@@ -2,25 +2,32 @@ import React, { useState } from "react";
 import img from "./Assest/img.png";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 import { toast } from "react-toastify";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 function Signup() {
   const [showFirstStep, setShowFirstStep] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [userType, setUserType] = useState("");
+  const setTypeStudent = "student";
+  const setTypeCompany = "company";
 
   const handleStudentButtonClick = () => {
     setShowFirstStep(false);
+    setUserType(setTypeStudent);
+    console.log(setTypeStudent);
   };
 
   const handleCompanyButtonClick = () => {
     setShowFirstStep(false);
+    setUserType(setTypeCompany);
+    console.log(setTypeCompany);
   };
 
   const navigate = useNavigate();
 
-  const [userData, setUserData] = useState({
+  const [userData, setuserData] = useState({
     fullname: "",
     email: "",
     password: "",
@@ -29,16 +36,16 @@ function Signup() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prevData) => ({
+    setuserData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSignup = async (userType) => {
+  const handleSignup = async () => {
     const { fullname, email, password, Contact } = userData;
 
-    if (fullname && email && password && Contact) {
+    if (fullname && email && password && Contact && userType) {
       setIsSaving(true);
       const db = getDatabase(app);
       const auth = getAuth();
@@ -50,19 +57,13 @@ function Signup() {
           password
         );
         const user = userCredential.user;
-        const userRef =
-          userType === "student" ? ref(db, "Student") : ref(db, "Company");
-        console.log((userType = "student"));
+        const userRef =ref(db, `user/${user.uid}`);
+          
+        const userDataWithUserType = { uid: user.uid, userType, ...userData };
 
-        push(userRef, { uid: user.uid, ...userData })
+        set(userRef, userDataWithUserType)
           .then(() => {
-            if (userType === "student") {
-              console.log("student hi h");
-              navigate("/login");
-            } else if (userType === "company") {
-              console.log("company hi h");
-              navigate("/login");
-            }
+            navigate("/login")
             console.log("User Signup successfully!");
             toast.success(`${email} Signup Successfully.`);
           })
@@ -81,7 +82,6 @@ function Signup() {
     } else {
       toast.error("Please fill in all the fields");
     }
-    console.log("Button Was Clicked");
   };
 
   const firebaseConfig = {

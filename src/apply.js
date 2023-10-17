@@ -1,25 +1,24 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 function Apply() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const jobFullName = queryParams.get("jobFullName");
   return (
     <div>
       <h1>Apply for Job</h1>
       <div className="jobies">
-        <div className="job" >
-          <h3>FullName:&nbsp;{jobFullName}</h3>
-          <p>location:&nbsp;&nbsp;&nbsp;{companyJob.location}</p>
-          <p>industry:&nbsp;&nbsp;&nbsp;{companyJob.industry}</p>
-          <p>employees:&nbsp;&nbsp;&nbsp;{companyJob.employees}</p>
-          <p>founded:&nbsp;&nbsp;&nbsp;{companyJob.founded}</p>
-          <p>facebook:&nbsp;&nbsp;&nbsp;{companyJob.facebook}</p>
-          <p>twitter:&nbsp;&nbsp;&nbsp;{companyJob.twitter}</p>
-          <p>googlePlus:&nbsp;&nbsp;&nbsp;{companyJob.googlePlus}</p>
-          <p>site:&nbsp;&nbsp;&nbsp;{companyJob.site}</p>
-          <p>bio:&nbsp;&nbsp;&nbsp;{companyJob.bio}</p>
+        <div className="job">
+          <h3 className="company_name">FullName:&nbsp;</h3>
+          <p className="company_location">location:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_industry">industry:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_employees">employees:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_founded">founded:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_facebook">facebook:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_twitter">twitter:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_googleplus">googlePlus:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_site">site:&nbsp;&nbsp;&nbsp;</p>
+          <p className="company_bio">bio:&nbsp;&nbsp;&nbsp;</p>
+        </div>
+        <div className="appluy_job_button">
+          <button></button>
         </div>
       </div>
     </div>
