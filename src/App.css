@@ -599,3 +599,41 @@ svg.D_BTN {
 .job p{
   font-size: 20px;
 }
+
+.buttons_div {
+  display: flex;
+  justify-content: center;
+}
+
+.apply_btn{
+  border: 1px solid blue;
+  color: white;
+  font-size: 26px;
+  background: blue;
+  border-radius: 6px;
+  font-family: "Teko", sans-serif;
+  font-size: 21px;
+  margin-right: 7px;
+  cursor: pointer;
+  box-shadow: 2px 3px 21px -7px rgba(0, 0, 0, 0.58);
+  width: 5vw;
+}
+
+.cancel_btn{
+  width: 5vw;
+  border-radius: 7px;
+  border: none;
+  border: 1px solid red;
+  color: red;
+  font-family: "Teko", sans-serif;
+  font-size: 21px;
+  cursor: pointer;
+  background-color: white;
+  box-shadow: 2px 3px 21px -7px rgba(0, 0, 0, 0.58);
+}
+
+.cancel_btn:hover{
+    background-color: red;
+    color: white;
+    transition: ease-in 0.1s;
+  }

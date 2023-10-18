@@ -53,11 +53,11 @@ function Login() {
         get(userRef)
           .then((snapshot) => {
             if (snapshot.exists()) {
-              const userData = snapshot.val();
-            console.log("User data:", userData);
-              if (userData.userType === "student") {
+              const userData2 = snapshot.val();
+            console.log("User data:", userData2);
+              if (userData2.userType === "student") {
                 navigate("/student-dashboard");
-              } else if (userData.userType === "company") {
+              } else if (userData2.userType === "company") {
                 navigate("/company-dashboard");
               }
               toast.success(`${email} Welcome Back.`);

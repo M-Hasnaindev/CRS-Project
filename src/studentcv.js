@@ -1,11 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 import { toast } from "react-toastify";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Studentcv() {
   const navigate = useNavigate();
+  const [userUid, setUserUid] = useState(null);
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
+    authDomain: "practice-host-auth0.firebaseapp.com",
+    databaseURL: "https://practice-host-auth0-default-rtdb.firebaseio.com",
+    projectId: "practice-host-auth0",
+    storageBucket: "practice-host-auth0.appspot.com",
+    messagingSenderId: "1058475595172",
+    appId: "1:1058475595172:web:5b980a9756ae3d849cdd31",
+  };
+
+  const app = initializeApp(firebaseConfig);
+
+  useEffect(() => {
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserUid(user.uid);
+      } else {
+        navigate("/login");
+        toast.error("login/authenticated correctly")
+      }
+    });
+  }, []);
 
   const handlecancel = () => {
     navigate("/student-dashboard");
@@ -14,7 +42,7 @@ function Studentcv() {
 
   const handleSaveProfile = () => {
     const db = getDatabase(app);
-    const cvDataRef = ref(db, "Student CV");
+    const cvDataRef = ref(db, `applied/${userUid}`);
     const cvData = {
       fullName: document.getElementById("userFullName").value,
       location: document.getElementById("userLocation").value,
@@ -29,27 +57,16 @@ function Studentcv() {
     };
 
     push(cvDataRef, cvData)
-      .then((newRef) => {
-        console.log("CV data saved with ID: " + newRef.key);
-        navigate("/student-dashboard");
-        toast.success("CV Edit Successfully.");
-      })
-      .catch((error) => {
-        console.error("Error saving CV data: " + error.message);
-      });
-  };
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA94tTiDEPq1krr9HFALAKU-Eg4B2VCYM4",
-    authDomain: "practice-host-auth0.firebaseapp.com",
-    databaseURL: "https://practice-host-auth0-default-rtdb.firebaseio.com",
-    projectId: "practice-host-auth0",
-    storageBucket: "practice-host-auth0.appspot.com",
-    messagingSenderId: "1058475595172",
-    appId: "1:1058475595172:web:5b980a9756ae3d849cdd31",
-  };
-
-  const app = initializeApp(firebaseConfig);
+    .then((cvDataRef) => {
+      console.log("CV data saved with ID: " + userUid);
+      navigate("/student-dashboard");
+      toast.success("CV Edit Successfully.");
+    })
+    .catch((error) => {
+      console.error("Error saving CV data: " + error.message);
+    });
+};
+  
   return (
     <div className="page_4">
       <div className="cv_section">
