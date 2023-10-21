@@ -542,10 +542,11 @@ button.submit:hover{
 
 ul.grid {
   display: grid;
-  grid-template-columns: auto auto auto;
-  margin-left: 0px;
+  grid-template-columns: auto;
+  margin-left: 105px;
   padding: 0px;
   margin-right: 105px;
+  color: black;
 }
 
 
@@ -637,3 +638,8 @@ svg.D_BTN {
     color: white;
     transition: ease-in 0.1s;
   }
+
+
+.apply_req{
+  text-align: center;
+}

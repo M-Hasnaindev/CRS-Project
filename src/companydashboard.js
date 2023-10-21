@@ -11,6 +11,7 @@ import { initializeApp } from "firebase/app";
 function Companydashboard() {
   const [studentData, setStudentData] = useState(null);
   const navigate = useNavigate();
+  const [showidhar, setShowIdhar] = useState(true)
 
   const handleAddCVClick = () => {
     navigate("/add-job");
@@ -29,6 +30,7 @@ function Companydashboard() {
       if (data) {
         setStudentData(data);
       }
+      setShowIdhar(true)
     });
   };
 
@@ -39,11 +41,14 @@ function Companydashboard() {
   const navigateToCV = (cvData) => {
     navigate("/cv", { state: { cvData } });
   };
-
+  const handleDataIharSaUdhar = () => {
+    setShowIdhar(false)
+    console.log(Object.values(Object.values(studentData)[0])[0])
+  }
   const showStudentCvData = () => {
     if (studentData && Object.values(studentData).length > 0) {
       return (
-        <div className="data_here student_data">
+        <div className="data_here student_data"  style={{display: showidhar ? "block" : "none"}} >
           <h2>Student Data</h2>
           <ul className="grid">
             {Object.values(studentData).map((student, index) => (
@@ -51,6 +56,7 @@ function Companydashboard() {
                 className="student__cv__data__here"
                 key={index}
                 onClick={() => navigateToCV(student)}
+                
               >
                 <h3 className="fullname">fullName: &nbsp;{student.fullName}</h3>
                 <p className="location">
@@ -126,7 +132,7 @@ function Companydashboard() {
           <div className="middle_section">
             <div className="section_3">
               <div className="links">
-                <div className="link_1">
+                <div className="link_1" onClick={handleDataIharSaUdhar}>
                   <p>Job List</p>
                 </div>
                 <hr className="small" />
@@ -134,7 +140,7 @@ function Companydashboard() {
                   <p>Applied Request</p>
                 </div>
                 <hr className="small" />
-                <div className="link_1" onClick={handleStudentDataClick}>
+                <div className="link_1"onClick={handleStudentDataClick}>
                   <p>Students</p>
                 </div>
               </div>
@@ -144,7 +150,7 @@ function Companydashboard() {
         <div className="page_3">
           <div className="bottom_section">
             <div className="section_4">
-              <div className="data_here job_data">
+              <div className="data_here job_data" style={{display: showidhar ? "none" : "block"}} >
                 <h2>Job list</h2>
               </div>
               <div className="data_here applied_data">
