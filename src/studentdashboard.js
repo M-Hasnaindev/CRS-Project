@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import { PiStudentBold } from "react-icons/pi";
 import { FaGlobe } from "react-icons/fa";
 import { BiLogoGooglePlus } from "react-icons/bi";
-import { SiTwitter} from "react-icons/si";
+import { SiTwitter } from "react-icons/si";
 import { FaFacebookF } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { toast } from "react-toastify";
 
 function Studentdashboard() {
-  const [showCompany, setShowCompany] = useState(true);
+  const [showCompany, setShowCompany] = useState(false);
   const [showJobs, setShowJobs] = useState(true);
+  const [showReq, setShowReq] = useState(false);
   const [companyJobs, setCompanyJobs] = useState([]);
+  const [appliedJobs, setAppliedJobs] = useState([]);
   const navigate = useNavigate();
 
   const handleAddCVClick = () => {
@@ -24,27 +26,42 @@ function Studentdashboard() {
     toast.success("Logout Successfully");
   };
 
-  const handlePageChange = () => {
-    navigate("/jobs");
-  };
-
   const handleCompanies = () => {
     setShowCompany(true);
     setShowJobs(false);
+    setShowReq(false);
   };
 
   const handleJobs = () => {
     setShowCompany(false);
     setShowJobs(true);
+    setShowReq(false);
   };
 
-  const handleAppliedJobs = () => {
-    navigate("/applied-jobs");
+  const handleAppliedJobRequest = () => {
+    setShowReq(true);
+    setShowCompany(false);
+    setShowJobs(false);
   };
 
-  const handleApply = () => {
-    navigate("/apply")
-  }
+  const handleApply = (companyJob) => {
+    navigate("/apply", { state: { companyJob } });
+  };
+
+  const handleApplyJob = (companyJob) => {
+    navigate("/company-check", { state: { companyJob } });
+  };
+
+  const handleAcceptReject = (appliedJob, isAccepted) => {
+    const updatedAppliedJob = { ...appliedJob, status: isAccepted ? "Accepted" : "Rejected" };
+    // const message = isAccepted ? "You are hired!" : "You are rejected.";
+    if(isAccepted){
+      toast.success("you are hired");
+    }
+    else{
+      toast.error("you are rejected")
+    }
+  };
 
   useEffect(() => {
     const firebaseConfig = {
@@ -59,12 +76,21 @@ function Studentdashboard() {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const companyJobsRef = ref(db, "Company Jobs");
+    const appliedJobsRef = ref(db, "Applied Data");
 
     onValue(companyJobsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const companyJobsArray = Object.values(data);
         setCompanyJobs(companyJobsArray);
+      }
+    });
+
+    onValue(appliedJobsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const appliedJobsArray = Object.values(data);
+        setAppliedJobs(appliedJobsArray);
       }
     });
   }, []);
@@ -87,7 +113,6 @@ function Studentdashboard() {
                 </button>
               </div>
             </div>
-            {/* <hr className='hr' /> */}
             <div className="section_2">
               <div className="cv_things">
                 <div className="thing">
@@ -126,7 +151,7 @@ function Studentdashboard() {
                   <p>Company</p>
                 </div>
                 <hr className="small" />
-                <div className="link_1">
+                <div className="link_1" onClick={handleAppliedJobRequest}>
                   <p>Applied Jobs</p>
                 </div>
               </div>
@@ -135,39 +160,91 @@ function Studentdashboard() {
         </div>
         <div className="page_3">
           <div className="bottom_section">
-          <div className="section_4">
-            <div
-              className="data_here job_data"
-              style={{ display: showCompany ? "block" : "none" }}
-            >
-              <h2>Job list</h2>
-              <div className="job__data__here">
-                {showJobs && (
-                  <div className="jobies">
-                    {companyJobs.map((companyJob, index) => (
-                      <div className="job">
-                        <div className="container" onClick={handleApply} key={index}>
-                        <h3>&nbsp;{companyJob.fullName}</h3>
-                        <p>location:&nbsp;&nbsp;&nbsp;{companyJob.location}</p>
-                        <p>industry:&nbsp;&nbsp;&nbsp;{companyJob.industry}</p>
+            <div className="section_4">
+              <div
+                className="data_here job_data"
+                style={{ display: showJobs ? "block" : "none" }}
+              >
+                <h2>Job list</h2>
+                <div className="job__data__here">
+                  {showJobs && (
+                    <div className="jobies">
+                      {companyJobs.map((companyJob, index) => (
+                        <div className="job">
+                          <div
+                            className="container"
+                            onClick={() => handleApply(companyJob)}
+                            key={index}
+                          >
+                            <h3>&nbsp;{companyJob.fullName}</h3>
+                            <p>
+                              location:&nbsp;&nbsp;&nbsp;{companyJob.location}
+                            </p>
+                            <p>
+                              industry:&nbsp;&nbsp;&nbsp;{companyJob.industry}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div
+                className="data_here company_data"
+                style={{ display: showCompany ? "block" : "none" }}
+              >
+                <h2>Company</h2>
+                <div className="company__data__here job__data__here">
+                  {showCompany && (
+                    <div className="companies jobies">
+                      {companyJobs.map((companyJob, index) => (
+                        <div className="com job">
+                          <div
+                            className="boxes_container"
+                            onClick={() => handleApplyJob(companyJob)}
+                            key={index}
+                          >
+                            <h3>&nbsp;{companyJob.fullName}</h3>
+                            <p>
+                              location:&nbsp;&nbsp;&nbsp;{companyJob.location}
+                            </p>
+                            <p>
+                              industry:&nbsp;&nbsp;&nbsp;{companyJob.industry}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div
+                className="data_here applied_job"
+                style={{ display: showReq ? "block" : "none" }}
+              >
+                <h2>Applied Job</h2>
+                {showReq &&
+                  appliedJobs.map((appliedJob, index) => (
+                    <div className="applied-job" key={index}>
+                      <h3>&nbsp;{appliedJob.company}</h3>
+                      <p>Location:&nbsp;&nbsp;&nbsp;{appliedJob.location}</p>
+                      <p>Industry:&nbsp;&nbsp;&nbsp;{appliedJob.industry}</p>
+                      <div className="acceptorreject">
+                        <div className="accept">
+                          <button className="accepte" onClick={()=>handleAcceptReject(appliedJob,true)}>
+                            Accept
+                          </button>
+                        </div>
+                        <div className="reject">
+                          <button className="rejects" onClick={()=>handleAcceptReject(appliedJob,false)}>
+                            Rejects
+                          </button>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    </div>
+                  ))}
               </div>
-            </div>
-            <div
-              className="data_here company_data"
-              style={{ display: showCompany ? "none" : "block" }}
-            >
-              <h2>Company</h2>
-              <div className="company__job__data">
-              </div>
-            </div>
-            <div className="data_here applied_job">
-              <h2>Applied Job</h2>
-            </div>
             </div>
           </div>
         </div>

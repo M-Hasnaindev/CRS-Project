@@ -484,7 +484,7 @@ button.submit:hover{
 }
 
 .applied_job{
-  display: none;
+  display: block;
 }
 
 .data_here{
@@ -493,7 +493,7 @@ button.submit:hover{
 }
 
 .company_data{
-  display: none;
+  display: flex;
 }
 
 .companies{
@@ -569,6 +569,8 @@ button.now {
   background: aliceblue;
   border-radius: 11px;
   cursor: pointer;
+  font-family: "Teko", sans-serif;
+  font-size: 20px;
 }
 
 .dowanload_now {
@@ -591,6 +593,10 @@ svg.D_BTN {
   display: grid;
   grid-template-columns: auto auto auto; 
 }
+.boxes_container{
+  display: grid;
+  grid-template-columns: auto; 
+}
 
 .job h3{
   font-size: 25px;
@@ -598,4 +604,87 @@ svg.D_BTN {
 
 .job p{
   font-size: 20px;
+}
+
+
+.applyed_now{
+  display: flex;
+    justify-content: center;
+    height: 44px;
+}
+
+.applyingo{
+  width: 124px;
+  border: 1px solid blue;
+  background: aliceblue;
+  border-radius: 11px;
+  cursor: pointer;
+  font-family: "Teko", sans-serif;
+  font-size: 20px;
+}
+
+.cv{
+  font-family: "Teko", sans-serif;
+  font-size: 18px;
+}
+
+.open_modal{
+  background-color: black;
+  color: white;
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button.noo {
+  width: 81px;
+  height: 40px;
+  border: 1px solid red;
+  background: #f56363;
+  font-family: "Teko", sans-serif;
+  font-size: 27px;
+}
+
+button.yeses {
+  width: 81px;
+  height: 40px;
+  background: lightgreen;
+  border: 1px solid green;
+  font-family: "Teko", sans-serif;
+  font-size: 27px;
+}
+
+.yes {
+  margin: 0px;
+  padding-right: 33px;
+}
+
+.yesorno {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.open_modal {
+  background-color: white;
+  color: black;
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px -1px 30px -3px rgba(0,0,0,0.94);
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10% 0%;
+  height: 420px;
 }
